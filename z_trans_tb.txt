@@ -90,8 +90,8 @@ z_trans_tb01:--z_trans_tb01
 	from view_trans a
 	left join addr b on a.straddrno = b.straddrno and a.endaddrno=b.endaddrno and a.uccno=b.productno
 	left join calctypes c on a.calctype = c.noa+c.noq
-	outer apply (select * from addrs where noa=b.noa and datea<=a.trandate and custunit=a.unit) d
-	outer apply (select * from addrs where noa=b.noa and datea<=a.trandate and ((c.isoutside=0 and driverunit=a.unit2) or (c.isoutside=1 and driverunit2=a.unit2))) e
+	outer apply (select top 1 * from addrs where noa=b.noa and datea<=a.trandate and custunit=a.unit order by datea desc) d
+	outer apply (select top 1 * from addrs where noa=b.noa and datea<=a.trandate and ((c.isoutside=0 and driverunit=a.unit2) or (c.isoutside=1 and driverunit2=a.unit2)) order by datea desc) e
 	right join @calctype f on a.calctype=f.noa
 	where a.trandate between @t_btrandate and @t_etrandate
 	and a.datea between @t_bdate and @t_edate
