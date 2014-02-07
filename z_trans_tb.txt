@@ -78,11 +78,11 @@ z_trans_tb01:--z_trans_tb01
 	)
 	
 	insert into @tmp(pno,gno,accy,noa,noq,datea,trandate
-		,carno,driverno,driver,custno,cust,nick,cardealno,cardeal
+		,carno,driverno,driver,custno,cust,nick,cardealno,cardeal,straddrno,straddr,endaddrno,endaddr
 		,inmount,pton,mount,unit,price
 		,outmount,pton2,mount2,unit2,price2,caseno,caseno2,pstatus)
 	select '1','1',a.accy,a.noa,a.noq,a.datea,a.trandate
-		,a.carno,a.driverno,a.driver,a.custno,a.custno,a.nick,a.cardeal,a.cardeal
+		,a.carno,a.driverno,a.driver,a.custno,a.custno,a.nick,a.cardeal,a.cardeal,a.straddrno,a.straddr,a.endaddrno,a.endaddr
 		,a.inmount,a.pton,a.mount,a.unit,d.custprice
 		,a.inmount,a.pton2,a.mount2,a.unit2,case when c.isoutside=0 then e.driverprice else e.driverprice2 end
 		,a.caseno,a.caseno2
