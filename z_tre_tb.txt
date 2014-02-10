@@ -82,7 +82,7 @@ z_tre_tb01:--z_tre_tb01
 	" select '1',b.noa,a.tranno,a.trannoq,d.datea,d.trandate,d.carno,d.driverno,d.driver,b.carteamno,g.team"+
 	"	,b.carchgno,isnull(b.tggno,''),b.tgg,e.nick,d.custno,f.comp,f.nick,d.straddrno+'-'+d.endaddrno,d.straddr+'-'+d.endaddr,d.uccno,d.product"+
 	"	,d.inmount,d.pton,d.mount,0,0"+
-	"	,d.outmount,d.pton2,a.mount,a.price,0,0,a.money"+
+	"	,d.outmount,d.pton2,a.mount,a.price,0,a.discount,a.money"+
 	"	,d.tolls,d.memo,d.po"+
 	" from view_tre b"+
 	" left join view_tres a on a.accy=b.accy and a.noa=b.noa"+
