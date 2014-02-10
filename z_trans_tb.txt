@@ -2487,7 +2487,8 @@ z_trans_tb06:--z_trans_tb06 ref z_tran14
 		" (len(@t_po)=0  or  a.po=@t_po) and "+
 		" (len(@t_baddr)=0  or  a.straddrno=@t_baddr) and "+
 		" (len(@t_eaddr)=0  or  a.endaddrno=@t_eaddr) and "+
-		" (b.noa  is  not  null) and (c.noa  is  not  null)"
+		--" (b.noa  is  not  null) and "+
+		" (c.noa  is  not  null)"
 	insert into #z_tran14
 	execute sp_executesql @cmd,N'@t_cno nvarchar(40),@t_bdate nvarchar(10),@t_edate nvarchar(10),@t_btrandate nvarchar(10),@t_etrandate nvarchar(10)
 	,@t_bcustno nvarchar(20),@t_ecustno nvarchar(20),@t_bdriverno  nvarchar(20),@t_edriverno  nvarchar(20),@t_carno  nvarchar(20),@t_po  nvarchar(20),@t_baddr  nvarchar(20),@t_eaddr  nvarchar(20)',
@@ -2725,7 +2726,8 @@ z_trans_tb07:--z_trans_tb07 ref z_tran28
 	"	 (len(@t_po)=0  or  a.po=@t_po) and "+
 	"	 (len(@t_baddr)=0  or  a.straddrno=@t_baddr) and "+
 	"	 (len(@t_eaddr)=0  or  a.endaddrno=@t_eaddr) and "+
-	"	 (b.noa  is  not  null) and (c.noa  is  not  null)"+
+	--"	 (b.noa  is  not  null) and "+
+	" (c.noa  is  not  null)"+
 	"    and not(isnull(a.total,0)=0 and isnull(a.total2,0)=0) "+
 	" group by a.custno,LEFT(a.trandate,"+@t_option28+")"
 	if(@t_sort18="custno")
