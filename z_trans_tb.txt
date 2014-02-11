@@ -13,6 +13,7 @@ z_trans_tb01:--z_trans_tb01
 	declare @t_endaddrno nvarchar(20) = case when '#non'=[12] then '' else [12] end
 	declare @t_calctype nvarchar(max) = case when '#non'=[13] then '' else [13] end
 	
+	
 	--------------------------------------------------------------------------------------------	
 	declare @string nvarchar(max)
 	declare @n int
@@ -69,6 +70,8 @@ z_trans_tb01:--z_trans_tb01
 		mount2 float,
 		unit2 nvarchar(20),
 		price2 float,
+		price3 float,
+		discount float,
 		total2 float,
 		
 		caseno nvarchar(30),
@@ -79,19 +82,20 @@ z_trans_tb01:--z_trans_tb01
 	
 	insert into @tmp(pno,gno,accy,noa,noq,datea,trandate
 		,carno,driverno,driver,custno,cust,nick,cardealno,cardeal,straddrno,straddr,endaddrno,endaddr
-		,inmount,pton,mount,unit,price
-		,outmount,pton2,mount2,unit2,price2,caseno,caseno2,pstatus)
+		,inmount,pton,mount,unit,price,total
+		,outmount,pton2,mount2,unit2,price2,price3,discount,total2,caseno,caseno2)
 	select '1','1',a.accy,a.noa,a.noq,a.datea,a.trandate
 		,a.carno,a.driverno,a.driver,a.custno,a.custno,a.nick,a.cardeal,a.cardeal,a.straddrno,a.straddr,a.endaddrno,a.endaddr
-		,a.inmount,a.pton,a.mount,a.unit,d.custprice
-		,a.inmount,a.pton2,a.mount2,a.unit2,case when c.isoutside=0 then e.driverprice else e.driverprice2 end
+		,a.inmount,a.pton,a.mount,a.unit,a.price,a.total
+		,a.inmount,a.pton2,a.mount2,a.unit2
+		,a.price2,a.price3,a.discount,a.total2
 		,a.caseno,a.caseno2
-		,case when d.noa is null and e.noa is null then 1 when d.noa is null then 2 when e.noa is null then 3 else 0 end
+	--	,case when d.noa is null and e.noa is null then 1 when d.noa is null then 2 when e.noa is null then 3 else 0 end
 	from view_trans a
 	left join addr b on a.straddrno = b.straddrno and a.endaddrno=b.endaddrno and a.uccno=b.productno
 	left join calctypes c on a.calctype = c.noa+c.noq
-	outer apply (select top 1 * from addrs where noa=b.noa and datea<=a.trandate and custunit=a.unit order by datea desc) d
-	outer apply (select top 1 * from addrs where noa=b.noa and datea<=a.trandate and ((c.isoutside=0 and driverunit=a.unit2) or (c.isoutside=1 and driverunit2=a.unit2)) order by datea desc) e
+--	outer apply (select top 1 * from addrs where noa=b.noa and datea<=a.trandate and custunit=a.unit order by datea desc) d
+--	outer apply (select top 1 * from addrs where noa=b.noa and datea<=a.trandate and ((c.isoutside=0 and driverunit=a.unit2) or (c.isoutside=1 and driverunit2=a.unit2)) order by datea desc) e
 	right join @calctype f on a.calctype=f.noa
 	where a.trandate between @t_btrandate and @t_etrandate
 	and a.datea between @t_bdate and @t_edate
